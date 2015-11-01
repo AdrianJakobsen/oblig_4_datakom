@@ -55,12 +55,13 @@ public class ClientController implements Initializable{
     ListView<String> listView = new ListView<String>();
 
     private SSLSocket socket;
+    private SSLSocketFactory sslFactory;
     private ClientUser clientUser;
     private String disconnectMessage;
     ObservableList<String> names = FXCollections.observableArrayList();
     ObjectOutputStream messageToServer;
-    private int sslPortNumber = 443;
-    private String host = "hostname";
+    private int sslPortNumber = 4430;
+    private String host = "localhost";
 
 
     @FXML
@@ -117,8 +118,8 @@ public class ClientController implements Initializable{
             HostPort.setEditable(false);
             messageField.requestFocus();
             try{
-                SSLSocketFactory sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
-                SSLSocket socket = (SSLSocket)sslFactory.createSocket(host, sslPortNumber);
+                sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                socket = (SSLSocket)sslFactory.createSocket(host, sslPortNumber);
                 clientUser = new ClientUser(UserName.getText());
                 new Thread(() ->{
                     try{

@@ -31,7 +31,7 @@ public class ChatServer extends Application{
     private int clientNumber = 0;
     private ArrayList<ClientUserContainer> clientOutputStreams;
     private SSLServerSocket sslServerSocket;
-    private int sslPortnumber = 443;
+    private int sslPortnumber = 4430;
 
 
     @Override
@@ -53,6 +53,7 @@ public class ChatServer extends Application{
                 Platform.runLater(() -> {
                     textArea.appendText("Chat Server started at " + new Date() + '\n');
                 });
+
                 while (true) {
                     SSLSocket clientSslSocket = (SSLSocket) sslServerSocket.accept();
                     clientNumber++;
