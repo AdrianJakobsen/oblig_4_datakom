@@ -44,6 +44,7 @@ public class ChatServer extends Application{
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+        System.setProperty("javax.net.ssl.trustStore", "/home/adrian/IdeaProjects/oblig_4_datakom/src/Server/keystore");
 
 
         new Thread( () -> {
@@ -56,6 +57,7 @@ public class ChatServer extends Application{
 
                 while (true) {
                     SSLSocket clientSslSocket = (SSLSocket) sslServerSocket.accept();
+
                     clientNumber++;
 
                     Platform.runLater(() -> {

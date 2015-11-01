@@ -67,7 +67,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
                         </Label>
-                        <TextField fx:id="HostPort" disable="true" editable="false" prefWidth="200.0" promptText="443 " text="443" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="HostPort" disable="true" editable="false" prefWidth="200.0" promptText="4430" text="4430" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <GridPane.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </GridPane.margin>

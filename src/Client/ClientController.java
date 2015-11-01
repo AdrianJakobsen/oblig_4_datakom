@@ -64,6 +64,7 @@ public class ClientController implements Initializable{
     private String host = "localhost";
 
 
+
     @FXML
     public void onClickedNameInList(MouseEvent event){
         if(!messageField.getText().startsWith("[/w]")){
@@ -121,6 +122,7 @@ public class ClientController implements Initializable{
                 sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
                 socket = (SSLSocket)sslFactory.createSocket(host, sslPortNumber);
                 clientUser = new ClientUser(UserName.getText());
+                socket.startHandshake();
                 new Thread(() ->{
                     try{
                         messageToServer = new ObjectOutputStream(socket.getOutputStream());
