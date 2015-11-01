@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="557.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ClientController">
+    <children>
+        <BorderPane layoutX="-182.0" layoutY="-155.0" prefHeight="396.0" prefWidth="626.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <right>
+                <ListView fx:id="listView" onMouseClicked="#onClickedNameInList" prefHeight="302.0" prefWidth="148.0" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin></ListView>
+            </right>
+            <center>
+                <TextArea fx:id="chatView" editable="false" prefHeight="158.0" prefWidth="438.0" wrapText="true" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin></TextArea>
+            </center>
+            <top>
+                <GridPane vgap="5.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="120.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="616.0" minWidth="10.0" prefWidth="388.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="616.0" minWidth="10.0" prefWidth="102.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="User name:">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="UserName" prefHeight="31.0" prefWidth="200.0" promptText="User name" GridPane.columnIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </TextField>
+                        <Label text="Host port:" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </Label>
+                        <Label text="Host address:" GridPane.rowIndex="2">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="HostPort" prefWidth="200.0" promptText="8000" text="8000" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </TextField>
+                        <TextField fx:id="HostAddress" prefHeight="31.0" prefWidth="200.0" promptText="localhost" text="localhost" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <GridPane.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </GridPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </TextField>
+                        <Button fx:id="ConnectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#connect" prefHeight="31.0" prefWidth="95.0" text="Connect" GridPane.columnIndex="2" />
+                        <Button fx:id="DisconnectButton" alignment="CENTER" disable="true" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                </GridPane>
+            </top>
+            <bottom>
+                <Pane prefHeight="43.0" prefWidth="626.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="sendButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" disable="true" layoutX="558.0" layoutY="6.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="31.0" prefWidth="54.0" text="Send" />
+                        <TextField fx:id="messageField" editable="false" layoutX="10.0" layoutY="6.0" onAction="#sendMessage" prefHeight="31.0" prefWidth="538.0" />
+                    </children>
+                </Pane>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>

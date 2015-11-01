@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ClientController.java">
+    <children>
+        <BorderPane layoutX="-182.0" layoutY="-155.0" prefHeight="396.0" prefWidth="626.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <right>
+                <ListView prefHeight="349.0" prefWidth="148.0" BorderPane.alignment="CENTER" />
+            </right>
+            <bottom>
+                <SplitPane dividerPositions="0.836038961038961" BorderPane.alignment="CENTER">
+                    <items>
+                        <TextField prefHeight="31.0" prefWidth="460.0" />
+                        <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="97.0" text="Send" />
+                    </items>
+                </SplitPane>
+            </bottom>
+            <center>
+                <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
