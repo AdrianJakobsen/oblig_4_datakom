@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
+import java.io.*;
+import javax.net.ssl.*;
+
 import Models.ClientUser;
 import Models.Message;
 import javafx.application.Platform;
@@ -51,11 +54,13 @@ public class ClientController implements Initializable{
     @FXML
     ListView<String> listView = new ListView<String>();
 
-    private Socket socket;
+    private SSLSocket socket;
     private ClientUser clientUser;
     private String disconnectMessage;
     ObservableList<String> names = FXCollections.observableArrayList();
     ObjectOutputStream messageToServer;
+    private int sslPortNumber = 443;
+    private String host = "hostname";
 
 
     @FXML
@@ -112,7 +117,8 @@ public class ClientController implements Initializable{
             HostPort.setEditable(false);
             messageField.requestFocus();
             try{
-                socket = new Socket(HostAddress.getText() ,Integer.parseInt(HostPort.getText()));
+                SSLSocketFactory sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                SSLSocket socket = (SSLSocket)sslFactory.createSocket(host, sslPortNumber);
                 clientUser = new ClientUser(UserName.getText());
                 new Thread(() ->{
                     try{
@@ -188,8 +194,8 @@ public class ClientController implements Initializable{
         DisconnectButton.setDisable(true);
         sendButton.setDisable(true);
         UserName.setEditable(true);
-        HostAddress.setEditable(true);
-        HostPort.setEditable(true);
+        HostAddress.setEditable(false);
+        HostPort.setEditable(false);
         try{
             socket.close();
         }catch(Exception ex){

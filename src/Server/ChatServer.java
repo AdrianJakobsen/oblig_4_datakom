@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import java.io.*;
+import javax.net.ssl.*;
+
 import Models.ClientUser;
 import Models.ClientUserContainer;
 import Models.Message;
@@ -27,6 +30,9 @@ public class ChatServer extends Application{
     private TextArea textArea = new TextArea();
     private int clientNumber = 0;
     private ArrayList<ClientUserContainer> clientOutputStreams;
+    private SSLServerSocket sslServerSocket;
+    private int sslPortnumber = 443;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -39,49 +45,55 @@ public class ChatServer extends Application{
         primaryStage.setResizable(false);
         primaryStage.show();
 
+
         new Thread( () -> {
             try {
-                ServerSocket serverSocket = new ServerSocket(8000);
+                SSLServerSocketFactory sslSrvFact = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+                sslServerSocket = (SSLServerSocket) sslSrvFact.createServerSocket(sslPortnumber);
                 Platform.runLater(() -> {
                     textArea.appendText("Chat Server started at " + new Date() + '\n');
                 });
-                while(true){
-                    Socket socket = serverSocket.accept();
+                while (true) {
+                    SSLSocket clientSslSocket = (SSLSocket) sslServerSocket.accept();
                     clientNumber++;
 
                     Platform.runLater(() -> {
 
                         //	textArea.appendText("client number " + clientNumber+ " have started a thread at " + new Date() + '\n');
 
-                        InetAddress inetAddres = socket.getInetAddress();
-                        textArea.appendText("Client "+clientNumber+"'s host name is " + inetAddres.getHostName()+ "\n");
+                        InetAddress inetAddres = clientSslSocket.getInetAddress();
+                        textArea.appendText("Client " + clientNumber + "'s host name is " + inetAddres.getHostName() + "\n");
                         //	textArea.appendText("Client "+clientNumber+"'s IP address is " + inetAddres.getHostAddress()+ "\n");
                     });
 
-                    new Thread(new HandleAClient(socket)).start();
+                    new Thread(new HandleAClient(clientSslSocket)).start();
                 }
-            } catch (Exception e) {
+            }
+
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
+
     }
+
     class HandleAClient implements Runnable{
-        private Socket socket;
+        private SSLSocket sslSocket;
         private InputStream input;
         private ObjectInputStream inputFromClient;
         private OutputStream output;
         private ObjectOutputStream outputToClient;
         private ClientUserContainer client;
 
-        public HandleAClient(Socket socket){
-            this.socket = socket;
+        public HandleAClient(SSLSocket sslSocket){
+            this.sslSocket = sslSocket;
         }
         @Override
         public void run() {
             try{
-                input = socket.getInputStream();
+                input = sslSocket.getInputStream();
                 inputFromClient = new ObjectInputStream(input);
-                output = socket.getOutputStream();
+                output = sslSocket.getOutputStream();
                 outputToClient = new ObjectOutputStream(output);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 String disconnectMessage = "thisClientWillDisconnectFromTheServerNow99118822";
