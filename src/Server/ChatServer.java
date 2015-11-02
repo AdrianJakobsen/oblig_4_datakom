@@ -32,7 +32,10 @@ public class ChatServer extends Application{
     private ArrayList<ClientUserContainer> clientOutputStreams;
     private SSLServerSocket sslServerSocket;
     private int sslPortnumber = 4430;
-
+    private String pathToKeystore = "/home/adrian/IdeaProjects/oblig_4_datakom/src/Server";
+    private String keystoreFile = "server_keystore.jks";
+    private String password = "incaseoffire";
+    private String trustFileName = pathToKeystore + "/" + keystoreFile;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -44,7 +47,8 @@ public class ChatServer extends Application{
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-        System.setProperty("javax.net.ssl.trustStore", "/home/adrian/IdeaProjects/oblig_4_datakom/src/Server/keystore");
+        System.setProperty("javax.net.ssl.keyStore", trustFileName);
+        System.setProperty("javax.net.ssl.keyStorePassword", password);
 
 
         new Thread( () -> {
@@ -57,6 +61,15 @@ public class ChatServer extends Application{
 
                 while (true) {
                     SSLSocket clientSslSocket = (SSLSocket) sslServerSocket.accept();
+//
+//                    InputStream sslIS = clientSslSocket.getInputStream();
+//                    OutputStream sslOS = clientSslSocket.getOutputStream();
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(sslIS));
+//                    String string = null;
+//                    while ((string = bufferedReader.readLine()) != null){
+//                        System.out.println(string);
+//                        System.out.flush();
+//                    }
 
                     clientNumber++;
 

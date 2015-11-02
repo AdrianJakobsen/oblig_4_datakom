@@ -54,6 +54,7 @@ public class ClientController implements Initializable{
     @FXML
     ListView<String> listView = new ListView<String>();
 
+
     private SSLSocket socket;
     private SSLSocketFactory sslFactory;
     private ClientUser clientUser;
@@ -62,6 +63,11 @@ public class ClientController implements Initializable{
     ObjectOutputStream messageToServer;
     private int sslPortNumber = 4430;
     private String host = "localhost";
+    private String pathToKeysStore = "/home/adrian/IdeaProjects/oblig_4_datakom/src/Client";
+    private String keyStoreFile = "client_keystore.jks";
+    private String trustFileName = pathToKeysStore + "/" + keyStoreFile;
+    private String password = "incaseoffire";
+
 
 
 
@@ -118,16 +124,19 @@ public class ClientController implements Initializable{
             HostAddress.setEditable(false);
             HostPort.setEditable(false);
             messageField.requestFocus();
+            System.setProperty("javax.net.ssl.trustStore", trustFileName);
+            System.setProperty("javax.net.ssl.trustStorePassword", password);
             try{
                 sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
                 socket = (SSLSocket)sslFactory.createSocket(host, sslPortNumber);
                 clientUser = new ClientUser(UserName.getText());
-                socket.startHandshake();
+                    socket.startHandshake();
                 new Thread(() ->{
                     try{
                         messageToServer = new ObjectOutputStream(socket.getOutputStream());
-                        Message addOutputStreamToServerList = new Message(clientUser, new Date(), "");
+                        Message addOutputStreamToServerList = new Message(clientUser, new Date(), "Hello SSL Server ");
                         messageToServer.writeObject(addOutputStreamToServerList);
+                        messageToServer.flush();
                         ObjectInputStream messageFromServer = new ObjectInputStream(socket.getInputStream());
 
                         while(true){
