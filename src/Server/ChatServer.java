@@ -61,18 +61,7 @@ public class ChatServer extends Application{
 
                 while (true) {
                     SSLSocket clientSslSocket = (SSLSocket) sslServerSocket.accept();
-//
-//                    InputStream sslIS = clientSslSocket.getInputStream();
-//                    OutputStream sslOS = clientSslSocket.getOutputStream();
-//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(sslIS));
-//                    String string = null;
-//                    while ((string = bufferedReader.readLine()) != null){
-//                        System.out.println(string);
-//                        System.out.flush();
-//                    }
-
                     clientNumber++;
-
                     Platform.runLater(() -> {
 
                         //	textArea.appendText("client number " + clientNumber+ " have started a thread at " + new Date() + '\n');
