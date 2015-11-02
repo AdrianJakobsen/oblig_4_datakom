@@ -1,74 +1,58 @@
 package signaturOgVeritifisering;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.security.*;
+import java.util.Scanner;
 
-public class Generate  {
+class Generate {
 
     public static void main(String[] args) {
- 
-        /* Generate a DSA signature */
 
-        if (args.length != 1) {
-            System.out.println("Usage: generate signatur of nameOfFileToSign");
+        Scanner scann = new Scanner(System.in);
+        System.out.print("please enter file that you want to have signed: ");
+        String nameOfFile = scann.nextLine();
+
+        if (nameOfFile.length() == 0) {
+            System.out.println("Usage: GenSig nameOfFileToSign");
         }
-        else try{
- 
-            /* Generate a key pair */
-
+        else try {
+            String pathToFile = "/home/adrian/IdeaProjects/oblig_4_datakom/src/signaturOgVeritifisering/" + nameOfFile;
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
 
             keyGen.initialize(1024, random);
-
             KeyPair pair = keyGen.generateKeyPair();
+
             PrivateKey priv = pair.getPrivate();
             PublicKey pub = pair.getPublic();
- 
- 
-            /* Create a Signature object and initialize it with the private key */
-
             Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
-
             dsa.initSign(priv);
- 
-            /* Update and sign the data */
-
-            FileInputStream fis = new FileInputStream(args[0]);
+            FileInputStream fis = new FileInputStream(pathToFile);
             BufferedInputStream bufin = new BufferedInputStream(fis);
             byte[] buffer = new byte[1024];
             int len;
-            while (bufin.available() != 0) {
-                len = bufin.read(buffer);
+            while ((len = bufin.read(buffer)) >= 0) {
                 dsa.update(buffer, 0, len);
-            };
-
+            }
             bufin.close();
- 
-            /* Now that all the data to be signed has been read in, 
-                    generate a signature for it */
-
             byte[] realSig = dsa.sign();
- 
-         
-            /* Save the signature in a file */
+
             FileOutputStream sigfos = new FileOutputStream("sig");
             sigfos.write(realSig);
-
             sigfos.close();
- 
- 
-            /* Save the public key in a file */
-            byte[] key = pub.getEncoded();
-            FileOutputStream keyfos = new FileOutputStream("suepk");
-            keyfos.write(key);
 
+            byte[] key = pub.getEncoded();
+            FileOutputStream keyfos = new FileOutputStream("puplicKey");
+            keyfos.write(key);
             keyfos.close();
+
+            System.out.println("signature generated");
+
 
         } catch (Exception e) {
             System.err.println("Caught exception " + e.toString());
         }
-
-    };
-
+    }
 }

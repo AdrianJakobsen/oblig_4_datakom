@@ -3,20 +3,25 @@ package signaturOgVeritifisering;
 import java.io.*;
 import java.security.*;
 import java.security.spec.*;
+import java.util.Scanner;
 
 public class Verify {
 
     public static void main(String[] args) {
- 
-        /* Verify a DSA signature */
 
-        if (args.length != 3) {
-            System.out.println("Usage: Verify publickeyfile signaturefile datafile");
+        Scanner input = new Scanner(System.in);
+        System.out.println("please enter file to verify: ");
+        String nameOfFile = input.nextLine();
+        String pathToFile = "/home/adrian/IdeaProjects/oblig_4_datakom/" + nameOfFile;
+        String pathToPublicKey = "/home/adrian/IdeaProjects/oblig_4_datakom/puplicKey";
+        String pathToSignature = "/home/adrian/IdeaProjects/oblig_4_datakom/sig";
+
+        if (nameOfFile.length() == 0) {
+            System.out.println("please enter filename to verify");
         } else try {
  
-            /* import encoded public key */
 
-            FileInputStream keyfis = new FileInputStream(args[0]);
+            FileInputStream keyfis = new FileInputStream(pathToPublicKey);
             byte[] encKey = new byte[keyfis.available()];
             keyfis.read(encKey);
 
@@ -27,20 +32,17 @@ public class Verify {
             KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
             PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
  
-            /* input the signature bytes */
-            FileInputStream sigfis = new FileInputStream(args[1]);
+            FileInputStream sigfis = new FileInputStream(pathToSignature);
             byte[] sigToVerify = new byte[sigfis.available()];
             sigfis.read(sigToVerify);
 
             sigfis.close();
  
-            /* create a Signature object and initialize it with the public key */
             Signature sig = Signature.getInstance("SHA1withDSA", "SUN");
             sig.initVerify(pubKey);
  
-            /* Update and verify the data */
 
-            FileInputStream datafis = new FileInputStream(args[2]);
+            FileInputStream datafis = new FileInputStream(pathToFile);
             BufferedInputStream bufin = new BufferedInputStream(datafis);
 
             byte[] buffer = new byte[1024];
